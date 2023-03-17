@@ -227,17 +227,28 @@ plt.scatter(results_list, mean_list)
 plt.show()
 
 #sys.exit()
-
-p_crds, r_cutoff = produce_r_cutoff(0)
+print('Val : [0-20]')
+val = input()
+p_crds, r_cutoff = produce_r_cutoff(val)
 G, mean_cn = produce_Graph(r_cutoff)
 
-print('Starting Ring Distribution')
-pn = []
-for c in nx.minimum_cycle_basis(G):
+
+import time
+start = time.time()
+A = nx.minimum_cycle_basis(G)
+stop = time.time()
+print(stop-start, ' seconds')
+for c in A:
     print(len(c))
     pn.append(len(c))
 
-plt.hist(pn)
+with open('Ring_Distribution_{:}.dat'.format(0), 'w') as f:
+    for i in range(14):
+        f.write('{:<10}{:<10}\n'.format(i, pn.count(i)))
+
+
+
+plt.plot([i for i in range(14)], [pn.count(i) for i in range(14)])
 plt.show()
 
 sys.exit()
